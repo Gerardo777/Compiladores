@@ -1,0 +1,20 @@
+﻿@model Dictionary<string, List<string>>
+
+<table class="table table-condensed" border="1">
+    <!--Recorrido sobre diccionario-->
+    @foreach (var p in Model)
+    {
+        <tr>
+            <!--Imprime llave de diccionario-->
+            <td>@p.Key </td>
+            <td>
+                <!--Imprime la lista de cadenas que le pertenece a la llave iterada-->
+                @foreach (var valores in p.Value)
+                {
+                    <span>@valores &nbsp;</span>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

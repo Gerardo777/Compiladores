@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<textarea rows="8" cols="30" id="originalData"></textarea>
+    <br />
+    <br />
+<textarea rows="3" cols="30" id="cadenaData"></textarea>
+    <br />
+    <br />
+
+<button class="btn btn-default" onclick="generaDiccionario()">Genera Diccionario</button>
+<button class="btn btn-default" onclick="generaPrimeros()">Primeros</button>
+<button class="btn btn-default" onclick="generaSiguientes()">Siguientes</button>
+<button class="btn btn-default" onclick="AnalizadorSintactico()">Analizador Sintáctico</button>
+<button class="btn btn-default" onclick="ASLR1()">Analizador Sintáctico LR1</button>
+<button class="btn btn-default" onclick="ASLR1_CADENA()">Analizador Sintáctico LR1 Cadena</button>
+
+<div id="muestraDiccionario"></div>
+
+<script type="text/javascript">
+
+
+    function generaDiccionario() {
+
+        var gram = $("#originalData").val();
+        var datos = { "gramatica": gram };        
+        $.post("/Home/creaDiccionario", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+        });
+    }
+
+    function generaPrimeros() {
+
+        var gram = $("#originalData").val();
+        var datos = { "gramatica": gram };
+        $.post("/Home/creaPrimeros", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+        });
+    }
+
+    function generaSiguientes() {
+
+        var gram = $("#originalData").val();
+        var datos = { "gramatica": gram };
+        $.post("/Home/ObtenerSiguientes", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+        });
+    }
+
+    function AnalizadorSintactico() {
+
+        var w = $("#cadenaData").val();
+        var datos = { "cadena": w };
+        $.post("/Home/AnalizadorSintacticoLR", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+            
+        });        
+    }
+
+    function ASLR1() {
+
+        var gram = $("#originalData").val();
+        var datos = { "gram": gram };
+        $.post("/Home/AnalizadorSintacticoLR1", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+        });
+    }
+
+    function ASLR1_CADENA() {
+
+        var w = $("#originalData").val();
+        var c = $("#cadenaData").val();
+        //var t = w.val() + "°" + c.val();
+
+        var datos = { "gram": w+"°"+c };        
+        $.post("/Home/AnalizadorDeCadenaLR1", datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+
+        });
+
+
+        /*var c = $("#cadenaData").val();
+        var nuevos_datos = { "cadena": c };
+        $.post("/Home/AnalizadorDeCadenaLR1", nuevos_datos, function (data, status) {
+            $("#muestraDiccionario").html(data);
+
+        });*/
+    }    
+</script>

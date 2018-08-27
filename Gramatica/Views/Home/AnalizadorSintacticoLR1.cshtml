@@ -1,0 +1,90 @@
+﻿
+@model List<Dictionary<int, List<string>>>
+
+
+<table  class="table table-condensed" border="1">   
+    <tr>       
+        <th style="text-align:center;" bgcolor="#BAC5D1">Estados</th>
+        @foreach (var d in Model[2])
+        {
+            foreach (var valores in d.Value)//Se agregan a la tabla los signos gramaticales
+            {
+                <th style="text-align:center;" bgcolor="#BAC5D1">@valores &nbsp;</th>            
+            }
+        }
+    </tr>
+    @foreach (var d in Model[0])
+    {
+        var numSignos = Model[2][0].Count;
+        var numPorRenglon = 0;
+        <tr>
+            <td style="text-align:center;" bgcolor="#BAC5D1">I @d.Key</td>    
+            
+            @for(int i = 0; i < Model[2][0].Count;i++)//foreach (var signo in Model[2][0])
+            {
+                if (Model[1].ContainsKey(d.Key))
+                {
+                    for (int j = 0; j < Model[1][d.Key].Count;)//foreach (var conexion in Model[1][d.Key])//itera las conexiones de la llave
+                    {
+                        var elementos = Model[1][d.Key][j].Split('-');//conexion.Split('-');
+                        var transicion = elementos[0];
+                        var destino = elementos[1];
+
+
+                        if (transicion.ToString().Equals(Model[2][0][i].ToString()))
+                        {
+                            <td style="text-align:center;" bgcolor="#8FB4DF"><span>@destino &nbsp;</span></td>
+                            Model[1][d.Key].Remove(Model[1][d.Key][j]);
+                            j = Model[1][d.Key].Count;
+                            numPorRenglon++;
+                            if (j == 0)
+                            {
+
+                                for (int l = numPorRenglon; l < numSignos; l++)
+                                {
+                                    <td style="text-align:center;" bgcolor="#BAC5D1"><span>Φ</span></td>                                
+                                }
+                                i = Model[2][0].Count;
+                            }
+                        }
+                        else
+                        {
+                            <td style="text-align:center;" bgcolor="#BAC5D1"><span>Φ</span></td>                            
+                            numPorRenglon++;
+                            i++;
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    <td style="text-align:center;" bgcolor="#BAC5D1"><span>Φ</span></td>
+                }
+            }
+        </tr>
+    }
+</table>
+
+
+
+
+
+<table class="table table-condensed" border="1">
+    <!--Recorrido sobre diccionario-->
+    @foreach (var d in Model[0])
+    {
+        <tr>
+            <!--Imprime llave de diccionario-->
+            <td>I @d.Key </td>
+            <td>
+                @foreach (var valores in d.Value)
+                {
+                    <span>@valores &nbsp;</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+

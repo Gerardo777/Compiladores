@@ -1,0 +1,28 @@
+﻿@model  List<object>
+
+
+@{
+    string[,] matriz = (string[,])Model[0];
+    int columna = (int)Model[2];
+    int renglon = (int)Model[1];
+    string respuesta = (string)Model[3];
+
+
+    <table border="1">
+        @for (int i = 0; i < renglon; i++)
+        {
+        <tr>            
+                @for (int j = 0; j < columna; j++)
+                {
+                    <td>
+                        <span>@matriz[i, j], </span>                        
+                    </td>
+                }
+        </tr>
+        }
+        
+    </table>
+    <p>@respuesta</p>
+}
+
+
